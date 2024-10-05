@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Bomberman</title>
+		<style>
+            @import url('https://fonts.cdnfonts.com/css/cascadia-code');
+
+			body { 
+                margin: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden; 
+                font-family: 'Cascadia Code', sans-serif;
+            }
+            .log {
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+                width: 160px;
+                color: white;
+                mask-image: linear-gradient(0deg, rgba(0,0,0,1) 0, rgba(0,0,0,.8) 60vh, rgba(0,0,0,0) 100vh);
+            }
+            .leaderboard {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                width: 180px;
+                display: grid;
+                grid-template-columns: auto 2em;
+            }
+            .leaderboard div:nth-child(2n) {
+                text-align: right;
+            }
+            .join {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                width: 180px;
+                font-size: 130%;
+                color: white;
+                text-align: right;
+            }
+            .error {
+                text-align: center;
+                color: black;
+                margin: 10em;
+            }
+		</style>
+	</head>
+	<body>
+		<script type="module" src="/js/view/main.js"></script>
+        <div class="log"></div>
+        <div class="leaderboard"></div>
+        <div class="join">Join at <strong>play.riganti.cz</strong></div>
+        <button>Start game</button>
+	</body>
+</html>

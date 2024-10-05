@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Bomberman</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/cascadia-code');
+
+        body {
+            touch-action: none;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Cascadia Code', sans-serif;
+        }
+
+        .step-0, .step-1, .step-2 {
+            display: none;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            padding: 20px;
+        }
+
+            .step-0 input {
+                margin-top: 0.5em;
+                width: 100%;
+                font-size: 120%;
+            }
+
+            .step-0 button {
+                margin-top: 0.5em;
+                font-size: 120%;
+            }
+
+            .step-1 .buttons {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-rows: 1fr 1fr 1fr;
+                gap: 10px;
+                width: 100%;
+                height: 100%;
+            }
+
+                .step-1 .buttons button {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+                    font-size: 150%;
+                    font-family: 'Cascadia Code', sans-serif;
+                }
+    </style>
+</head>
+<body>
+
+    <div class="step-0">
+        <label>
+            Your name:
+            <br />
+            <input type="text" class="player-name" />
+        </label>
+        <p>
+            <button class="connect">Connect</button>
+        </p>
+    </div>
+
+    <div class="step-1">
+        <div class="buttons">
+            <div></div>
+            <div>
+                <button data-command="u">
+                    <i class="bi-arrow-up"></i>
+                </button>
+            </div>
+            <div></div>
+            <div>
+                <button data-command="l">
+                    <i class="bi-arrow-left"></i>
+                </button>
+            </div>
+            <div>
+                <button data-command="b">💣</button>
+            </div>
+            <div>
+                <button data-command="r">
+                    <i class="bi-arrow-right"></i>
+                </button>
+            </div>
+            <div></div>
+            <div>
+                <button data-command="d">
+                    <i class="bi-arrow-down"></i>
+                </button>
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+    <div class="step-2">
+        <p>The game has ended.</p>
+        <button class="reload">Try again</button>
+    </div>
+
+    <script type="module" src="/js/index/main.js"></script>
+
+</body>
+</html>
