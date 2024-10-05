@@ -398,4 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # generated files
-wwwroot/js/**/*.js
+**/wwwroot/js/**/*.js
