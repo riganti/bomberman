@@ -12,6 +12,24 @@
                 height: 100vh;
                 overflow: hidden; 
                 font-family: 'Cascadia Code', sans-serif;
+                background: black;
+            }
+            button {
+                padding: 0.5em;
+                font-size: 36px;
+                color: black;
+                background: #f39c12;
+                font-family: 'Cascadia Code', sans-serif;
+            }
+            .start {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .log {
                 position: fixed;
@@ -37,9 +55,13 @@
                 bottom: 10px;
                 right: 10px;
                 width: 180px;
-                font-size: 130%;
                 color: white;
                 text-align: right;
+                display: none;
+            }
+            .join .qr {
+                background-color: white;
+                margin-top: 10px;
             }
             .error {
                 text-align: center;
@@ -48,11 +70,16 @@
             }
 		</style>
 	</head>
-	<body>
-		<script type="module" src="/js/view/main.js"></script>
+    <body>
         <div class="log"></div>
         <div class="leaderboard"></div>
-        <div class="join">Join at <strong>play.riganti.cz</strong></div>
-        <button>Start game</button>
-	</body>
+        <div class="join">
+            <div>Join at <strong class="url"></strong></div>
+            <canvas class="qr"></canvas>
+        </div>
+        <div class="start">
+            <button>Start game</button>
+        </div>
+        <script type="module" src="/js/view/main.js"></script>
+    </body>
 </html>

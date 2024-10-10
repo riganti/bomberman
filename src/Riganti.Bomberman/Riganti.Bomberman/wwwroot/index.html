@@ -10,10 +10,57 @@
 
         body {
             touch-action: none;
+            font-size: 18px;
             margin: 0;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
+            font-family: 'Cascadia Code', sans-serif;
+            color: white;
+            background: black;
+        }
+
+        button {
+            padding: 0.5em;
+            font-size: 36px;
+            color: black;
+            background: #f39c12;
+            font-family: 'Cascadia Code', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f39c12;
+            font-size: 64px;
+        }
+
+        a {
+            color: #f39c12;
+        }
+
+        .button-row {
+            text-align: center;
+        }
+
+        .footer {
+            position: fixed;
+            padding: 0 1em;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        input[type=text] {
+            margin-top: 0.5em;
+            width: calc(100% - 40px);
+            font-size: 36px;
+            color: white;
+            background: black;
+            border: solid 1px white;
             font-family: 'Cascadia Code', sans-serif;
         }
 
@@ -26,17 +73,6 @@
             bottom: 0px;
             padding: 20px;
         }
-
-            .step-0 input {
-                margin-top: 0.5em;
-                width: 100%;
-                font-size: 120%;
-            }
-
-            .step-0 button {
-                margin-top: 0.5em;
-                font-size: 120%;
-            }
 
             .step-1 .buttons {
                 display: grid;
@@ -51,8 +87,6 @@
                     display: block;
                     width: 100%;
                     height: 100%;
-                    text-align: center;
-                    font-size: 150%;
                     font-family: 'Cascadia Code', sans-serif;
                 }
     </style>
@@ -60,14 +94,31 @@
 <body>
 
     <div class="step-0">
-        <label>
-            Your name:
-            <br />
-            <input type="text" class="player-name" />
-        </label>
+        <h1>BOMBERMAN</h1>
         <p>
-            <button class="connect">Connect</button>
+            <label>
+                Your name:
+                <br />
+                <input type="text" class="player-name" />
+            </label>
         </p>
+        <p class="button-row">
+            <button class="connect">Join the game</button>
+        </p>
+        <div class="footer">
+            <div>
+                <p>Created by</p>
+                <p>
+                    <img src="img/logo-riganti-symbol-white.svg" alt="Logo" />
+                </p>
+            </div>
+            <div>
+                <p>
+                    Source code at<br />
+                    <a href="https://github.com/riganti/bomberman">github.com/riganti/bomberman</a>
+                </p>
+            </div>
+        </div>
     </div>
 
     <div class="step-1">
@@ -103,8 +154,24 @@
     </div>
 
     <div class="step-2">
-        <p>The game has ended.</p>
-        <button class="reload">Try again</button>
+        <h1>GAME OVER</h1>
+        <p class="button-row">
+            <button class="reload">Try again</button>
+        </p>
+        <div class="footer">
+            <div>
+                <p>Created by</p>
+                <p>
+                    <img src="img/logo-riganti-symbol-white.svg" alt="Logo" />
+                </p>
+            </div>
+            <div>
+                <p>
+                    Source code at<br />
+                    <a href="https://github.com/riganti/bomberman">github.com/riganti/bomberman</a>
+                </p>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="/js/index/main.js"></script>

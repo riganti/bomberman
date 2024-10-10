@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { Game } from './game';
+import * as QRCode from 'qrcode';
 import * as signalR from '@microsoft/signalr';
+import { Game } from './game';
 import { Player, PlayerDirection } from './player';
 import { Audio } from './audio';
-
 async function init() {
 
     // connect to the hub
@@ -89,8 +89,16 @@ async function init() {
     }
 }
 
+// configure the start button
 const startButton = document.querySelector("button")!;
 startButton.addEventListener("click", _ => {
-    startButton.remove();
+    document.querySelector(".start")!.remove();
+    document.querySelector<HTMLDivElement>(".join")!.style.display = "block";
     init();
 });
+
+// create QR code
+const url = document.location.href.substring(0, document.location.href.lastIndexOf("/"));
+document.querySelector(".url")!.textContent = url.substring(url.indexOf("//") + 2);
+const qrCodeElement = document.querySelector<HTMLCanvasElement>(".qr")!;
+QRCode.toCanvas(qrCodeElement, url, { width: 180 });

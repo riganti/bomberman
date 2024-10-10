@@ -35,8 +35,8 @@ async function init() {
     });
     for (let button of controlButtons) {
         button.addEventListener("mousedown", async e => {
-            const sender = e.target as HTMLButtonElement;
-            await connection.invoke("playerCommand", sender.dataset["command"]);
+            const sender = e.currentTarget as HTMLButtonElement;
+            connection.invoke("playerCommand", sender.dataset["command"]);
         });
     }
     reloadButton.addEventListener("click", () => window.location.reload());
@@ -55,3 +55,5 @@ async function init() {
 }
 
 init();
+
+document.addEventListener("gesturestart", e => e.preventDefault());

@@ -170,7 +170,7 @@ export class Game {
         }
 
         // spawn AI players if there are less than 2
-        while (this.ai.length < 2) {
+        while (this.ai.length < 3) {
             const player = this.addPlayer("AI", "AI " + this.nextAiPlayerId);
             this.nextAiPlayerId++;
             this.ai.push(new Ai(this, player));
@@ -223,15 +223,15 @@ export class Game {
             }
         }
         this.highScore.sort((a, b) => b.points - a.points);
-        if (this.highScore.length > 15) {
-            this.highScore.splice(15, this.highScore.length - 15);
+        if (this.highScore.length > 10) {
+            this.highScore.splice(10, this.highScore.length - 10);
         }
 
         // generate output
         const leaderboardElement = this.leaderboardElement;
         leaderboardElement.innerHTML = "";
         appendLine("HIGH SCORE", null, "#ffffff");
-        for (let highScore of this.highScore) {
+        for (let highScore of this.highScore.filter(s => s.points > 0)) {
             const color = "#" + highScore.color.getHexString();
             appendLine(highScore.name, highScore.points, color);
         }
