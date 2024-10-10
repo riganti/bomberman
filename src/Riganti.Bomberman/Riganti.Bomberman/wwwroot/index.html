@@ -29,9 +29,10 @@
         }
 
         h1 {
+            margin: 0;
             text-align: center;
             color: #f39c12;
-            font-size: 64px;
+            font-size: 56px;
         }
 
         a {
@@ -44,19 +45,24 @@
 
         .footer {
             position: fixed;
-            padding: 0 1em;
-            bottom: 10px;
+            padding: 10px 20px;
+            bottom: 0px;
             left: 0;
             right: 0;
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: flex-end;
         }
+        .footer img {
+            width: 100px;
+        }
 
         input[type=text] {
-            margin-top: 0.5em;
-            width: calc(100% - 40px);
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
             font-size: 36px;
             color: white;
             background: black;
@@ -96,27 +102,17 @@
     <div class="step-0">
         <h1>BOMBERMAN</h1>
         <p>
-            <label>
-                Your name:
-                <br />
-                <input type="text" class="player-name" />
-            </label>
+            <input type="text" class="player-name" placeholder="Your name" />
         </p>
         <p class="button-row">
             <button class="connect">Join the game</button>
         </p>
         <div class="footer">
             <div>
-                <p>Created by</p>
-                <p>
-                    <img src="img/logo-riganti-symbol-white.svg" alt="Logo" />
-                </p>
+                <img src="img/logo-riganti-symbol-white.svg" alt="Logo" />
             </div>
             <div>
-                <p>
-                    Source code at<br />
-                    <a href="https://github.com/riganti/bomberman">github.com/riganti/bomberman</a>
-                </p>
+                <a href="https://github.com/riganti/bomberman">github.com/riganti/bomberman</a>
             </div>
         </div>
     </div>
@@ -160,16 +156,10 @@
         </p>
         <div class="footer">
             <div>
-                <p>Created by</p>
-                <p>
-                    <img src="img/logo-riganti-symbol-white.svg" alt="Logo" />
-                </p>
+                <img src="img/logo-riganti-symbol-white.svg" alt="Logo" />
             </div>
             <div>
-                <p>
-                    Source code at<br />
-                    <a href="https://github.com/riganti/bomberman">github.com/riganti/bomberman</a>
-                </p>
+                <a href="https://github.com/riganti/bomberman">github.com/riganti/bomberman</a>
             </div>
         </div>
     </div>
