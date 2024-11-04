@@ -7,7 +7,7 @@ public class PlayerHub(IHubContext<ViewHub> viewHubContext) : Hub
 {
 
     private static readonly ConcurrentDictionary<string, string> players = new();
-    private static readonly string[] allowedCommands = ["u", "d", "l", "r", "b"];
+    private static readonly string?[] allowedCommands = ["u", "d", "l", "r", "b", null];
 
     public async Task JoinPlayer(string name)
     {
@@ -23,12 +23,7 @@ public class PlayerHub(IHubContext<ViewHub> viewHubContext) : Hub
             await viewHubContext.Clients.All.SendAsync("playerCommand", Context.ConnectionId, command);
         }
     }
-
-    public async Task GameEnded()
-    {
-        await Clients.All.SendAsync("gameEnded");
-    }
-
+    
     public override Task OnDisconnectedAsync(Exception? exception)
     {
         players.TryRemove(Context.ConnectionId, out _);

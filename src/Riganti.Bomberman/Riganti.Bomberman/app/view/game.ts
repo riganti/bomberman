@@ -12,24 +12,24 @@ export class Game {
         "w                                     w",
         "w w w w w w w w w w w w w w w w w w w w",
         "w                                     w",
-        "w w w w w  wwwwwwwwwwwwwwwww  w w w w w",
-        "w          wwwwwwwwwwwwwwwww          w",
-        "w w w w w  ww             ww  w w w w w",
-        "w          ww             ww          w",
-        "w w w w w  ww             ww  w w w w w",
-        "w          ww   www  www  ww          w",
-        "w w w w w  ww   www  www  ww  w w w w w",
-        "w          ww   www  www  ww          w",
-        "w w w w w  ww             ww  w w w w w",
-        "w          ww             ww          w",
-        "w w w w w  ww             ww  w w w w w",
-        "w          ww    wwwwwwwwwww          w",
-        "w w w w w  ww    wwwwwwwwwww  w w w w w",
-        "w          ww        ww               w",
-        "w w w w w  ww        ww   w w w w w w w",
-        "w          ww        ww               w",
-        "w w w w w  ww        ww   w w w w w w w",
-        "w          ww        ww               w",
+        "w w w w w  ggggggggggggggggg  w w w w w",
+        "w          ggggggggggggggggg          w",
+        "w w w w w  gg             gg  w w w w w",
+        "w          gg             gg          w",
+        "w w w w w  gg             gg  w w w w w",
+        "w          gg   ggg  ggg  gg          w",
+        "w w w w w  gg   ggg  ggg  gg  w w w w w",
+        "w          gg   ggg  ggg  gg          w",
+        "w w w w w  gg             gg  w w w w w",
+        "w          gg             gg          w",
+        "w w w w w  gg             gg  w w w w w",
+        "w          gg    ggggggggggg          w",
+        "w w w w w  gg    ggggggggggg  w w w w w",
+        "w          gg        gg               w",
+        "w w w w w  gg        gg   w w w w w w w",
+        "w          gg        gg               w",
+        "w w w w w  gg        gg   w w w w w w w",
+        "w          gg        gg               w",
         "w w w w w                 w w w w w w w",
         "w                                     w",
         "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
@@ -40,25 +40,43 @@ export class Game {
     nextAiPlayerId: number = 1;
     highScore: { name: string, points: number, color: THREE.Color }[] = [];
 
-    playerColors = [0xe74c3c, 0xf39c12, 0x00a65a, 0x0073b7, 0x00c0ef];
+    playerColors = [
+	  0xFF5733, // Bright Red-Orange
+	  0xFFBD33, // Bright Yellow-Orange
+	  0xFFFF33, // Bright Yellow
+	  0x33FF57, // Bright Lime Green
+	  0x33FFBD, // Bright Aqua
+	  0x33FFFF, // Bright Cyan
+	  0x3357FF, // Bright Blue
+	  0xBD33FF, // Bright Purple
+	  0xFF33FF, // Bright Magenta
+	  0xFF33BD  // Bright Pink
+	];
     nextPlayerColor = 0;
     
     scene: THREE.Scene | null = null;
     logElement: HTMLElement;
     leaderboardElement: HTMLElement;
 
-    constructor(public audio: Audio, public onPlayerKilled: (player: Player) => void) {
+    constructor(public audio: Audio, public camera: THREE.Camera, public width: number, public height: number, public onPlayerKilled: (player: Player) => void) {
         this.logElement = document.querySelector(".log")!;
         this.leaderboardElement = document.querySelector(".leaderboard")!;
     }
 
     initScene() {
-        const loader = new THREE.TextureLoader();
-        const wallTexture = loader.load('textures/wall.png');
-        wallTexture.colorSpace = THREE.SRGBColorSpace;
-        
         const wallGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const wallMaterial = new THREE.MeshStandardMaterial({ map: wallTexture });
+
+        const loader = new THREE.TextureLoader();
+
+        const wallTextures = {
+            "w": loader.load('textures/wall.png'),
+            "g": loader.load('textures/wall-green.png')
+        };
+        const wallMaterials: { [key: string]: THREE.MeshStandardMaterial } = {};
+        for (let entry of Object.entries(wallTextures)) {
+            entry[1].colorSpace = THREE.SRGBColorSpace;
+            wallMaterials[entry[0]] = new THREE.MeshStandardMaterial({ map: entry[1] });
+        }
 
         this.scene = new THREE.Scene();
 
@@ -71,13 +89,14 @@ export class Game {
         light.target = lightTarget;
         this.scene.add(light);
 
-        const ambientLight = new THREE.AmbientLight(0x808080);
+        const ambientLight = new THREE.AmbientLight(0xd8d8d8);
         this.scene.add(ambientLight);
 
         for (let y = 0; y < this.field.length; y++) {
             for (let x = 0; x < this.field[y].length; x++) {
-                if (this.field[y][x] === "w") {
-                    const wall = new THREE.Mesh(wallGeometry, wallMaterial);
+                const item = this.field[y][x];
+                if (item in wallMaterials) {
+                    const wall = new THREE.Mesh(wallGeometry, wallMaterials[item]);
                     wall.position.copy(this.toScenePosition(x, y));
                     this.scene.add(wall);
                 }
@@ -89,6 +108,10 @@ export class Game {
 
     toScenePosition(x: number, y: number) {
         return new THREE.Vector3(x - this.center.x, -y + this.center.y, 0);
+    }
+
+    toScreenPosition(position: THREE.Vector3) {
+        return position.project(this.camera);
     }
 
     addPlayer(id: string, name: string): Player {

@@ -50,6 +50,16 @@
             .leaderboard div:nth-child(2n) {
                 text-align: right;
             }
+            .names {
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+            }
+            .names > div {
+                position: absolute;
+            }
             .join {
                 position: fixed;
                 bottom: 10px;
@@ -77,6 +87,7 @@
             <div>Join at <strong class="url"></strong></div>
             <canvas class="qr"></canvas>
         </div>
+        <div class="names"></div>
         <div class="start">
             <button>Start game</button>
         </div>

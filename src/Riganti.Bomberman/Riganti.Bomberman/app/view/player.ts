@@ -16,12 +16,26 @@ export class Player {
     diedRemainingTime = 1000;
     speed = 0.005;
     mesh: THREE.Mesh | null = null;
+    nameElement: HTMLDivElement | null = null;
 
     constructor(public game: Game, public id: string, public name: string, public color: THREE.Color) {
     }
 
     addCommand(direction: PlayerDirection) {
         this.commandQueue.push(direction);
+    }
+
+    prependCommand(direction: PlayerDirection) {
+        this.commandQueue.unshift(direction);
+    }
+
+    clearCommands() {
+        this.commandQueue = this.commandQueue.filter(c => c === "b");
+    }
+
+    setMoveCommand(direction: PlayerDirection) {
+        this.clearCommands();
+        this.commandQueue.push(...new Array<PlayerDirection>(this.game.field[0].length).fill(direction));
     }
 
     kill() {
@@ -46,14 +60,23 @@ export class Player {
 
         this.mesh.position.copy(this.game.toScenePosition(this.x, this.y));
         scene.add(this.mesh);
+
+        this.nameElement = document.createElement("div");
+        this.nameElement.textContent = this.name;
+        this.nameElement.style.color = "#" + this.color.getHexString();
+        document.querySelector(".names")!.append(this.nameElement);
+
+        this.moveNameElement(this.game.toScenePosition(this.x, this.y));
     }
 
     disposeScene(scene: THREE.Scene) {
         scene.remove(this.mesh!);
+        this.nameElement!.remove();
     }
 
     doStep(elapsedTime: number) {
-        this.mesh!.position.copy(this.game.toScenePosition(this.x, this.y));
+        const scenePosition = this.game.toScenePosition(this.x, this.y);
+        this.mesh!.position.copy(scenePosition);
 
         if (this.died) {
             this.diedRemainingTime -= elapsedTime;
@@ -89,6 +112,7 @@ export class Player {
                     this.currentTarget = null;
                 }
             }
+            this.moveNameElement(scenePosition);
             return;
         }
 
@@ -118,6 +142,12 @@ export class Player {
         if (this.game.canMoveTo(targetX, targetY)) {
             this.currentTarget = { direction: command, x: targetX, y: targetY };
         }
+    }
+
+    moveNameElement(scenePosition: THREE.Vector3) {
+        const position = this.game.toScreenPosition(scenePosition);
+        this.nameElement!.style.left = `${Math.round((position.x + 1) * this.game.width / 2)}px`;
+        this.nameElement!.style.top = `${Math.round(-(position.y - 1) * this.game.height / 2 - 50)}px`;
     }
 
     isDisposed() {

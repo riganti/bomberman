@@ -12,9 +12,9 @@ public class ViewHub(IHubContext<PlayerHub> playerHubContext) : Hub
         await base.OnConnectedAsync();
     }
 
-    public async Task PlayerJoined(string connectionId)
+    public async Task PlayerJoined(string connectionId, string color)
     {
-        await playerHubContext.Clients.Client(connectionId).SendAsync("playerJoined");
+        await playerHubContext.Clients.Client(connectionId).SendAsync("playerJoined", color);
     }
 
     public async Task PlayerKilled(string connectionId)

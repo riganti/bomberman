@@ -15,13 +15,20 @@ async function init() {
     connection.on("gameEnded", _ => endGame());
 
     connection.on("joinPlayer", async (connectionId: string, name: string) => {
-        game.addPlayer(connectionId, name);
-        await connection.invoke("playerJoined", connectionId);
+        const player = game.addPlayer(connectionId, name);
+        const color = "#" + player.color.getHexString();
+        await connection.invoke("playerJoined", connectionId, color);
     });
-    connection.on("playerCommand", (connectionId: string, command: PlayerDirection) => {
+    connection.on("playerCommand", (connectionId: string, command: PlayerDirection | null) => {
         const player = game.players.find(p => p.id === connectionId);
         if (player) {
-            player.addCommand(command);
+            if (command === "b") {
+                player.prependCommand(command);
+            } else if (command === null) {
+                player.clearCommands();
+            } else {
+                player.setMoveCommand(command);
+            }
         }
     });
 
@@ -37,7 +44,7 @@ async function init() {
     const audio = new Audio(camera);
 
     // init game
-    const game = new Game(audio, onPlayerKilled);
+    const game = new Game(audio, camera, window.innerWidth, window.innerHeight, onPlayerKilled);
     const scene = game.initScene();
     
     // render loop
@@ -56,28 +63,6 @@ async function init() {
         renderer.render(scene, camera);
     }
     renderer.setAnimationLoop(animate);
-
-    //// debug mode
-    //document.addEventListener("keydown", e => {
-    //    if (e.key === "n") {
-    //        game.addPlayer("Debug", "Player " + game.nextPlayerColor);
-    //    }
-    //    else if (e.key === "w") {
-    //        game.players[0].addCommand("u");
-    //    }
-    //    else if (e.key === "s") {
-    //        game.players[0].addCommand("d");
-    //    }
-    //    else if (e.key === "a") {
-    //        game.players[0].addCommand("l");
-    //    }
-    //    else if (e.key === "d") {
-    //        game.players[0].addCommand("r");
-    //    }
-    //    else if (e.key === " ") {
-    //        game.players[0].addCommand("b");
-    //    }
-    //});
 
     async function onPlayerKilled(player: Player) {
         await connection.invoke("playerKilled", player.id);
