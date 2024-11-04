@@ -9,7 +9,7 @@ const bombSize = 5;
 export type BombExplosionRange = { minX: number, maxX: number, minY: number, maxY: number };
 export class Bomb {
 
-    remainingTime = 4000;
+    remainingTime = 3000;
     explosionRange: BombExplosionRange;
     exploded = false;
     x: number;

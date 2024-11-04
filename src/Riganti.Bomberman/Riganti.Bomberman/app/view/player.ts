@@ -17,6 +17,7 @@ export class Player {
     speed = 0.005;
     mesh: THREE.Mesh | null = null;
     nameElement: HTMLDivElement | null = null;
+    bombsPlaced: number = 0;
 
     constructor(public game: Game, public id: string, public name: string, public color: THREE.Color) {
     }

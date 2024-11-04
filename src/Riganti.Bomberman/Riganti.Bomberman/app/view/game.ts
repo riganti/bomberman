@@ -139,12 +139,13 @@ export class Game {
     }
 
     tryPlaceBomb(player: Player) {
-        if (!this.bombs.some(b => b.x === player.x && b.y === player.y)) {
+        if (player.bombsPlaced < 3 && !this.bombs.some(b => b.x === player.x && b.y === player.y)) {
             const bombSize = 5;
             const bomb = new Bomb(this, player);
             bomb.initScene(this.scene!);
             this.bombs.push(bomb);
             this.audio.playPlaceBombSound();
+            player.bombsPlaced++;
         }
     }
 
@@ -201,7 +202,7 @@ export class Game {
     }
 
     onBombExploded(bomb: Bomb) {
-        this.shakeFactor += 1;
+        this.shakeFactor += 0.8;
 
         let points = 0;
         for (let player of this.players) {
@@ -220,6 +221,7 @@ export class Game {
             }
         }
         bomb.player.points += points;
+        bomb.player.bombsPlaced--;
         this.updateLeaderboard();
 
         this.audio.playExplosionSound();
