@@ -57,7 +57,7 @@ async function init() {
         game.doStep(delta);
 
         const shake = Math.sin(elapsedTime / 30) * game.shakeFactor;
-        camera.position.set(shake, shake * 0.8, 42);
+        camera.position.set(shake * 0.6, shake * 0.8, 42);
         game.shakeFactor *= 0.9;
 
         renderer.render(scene, camera);

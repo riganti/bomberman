@@ -4,6 +4,8 @@ import { Player } from './player';
 
 const explosionColor = new THREE.Color(0xfcba03);
 const blackColor = new THREE.Color(0x000000);
+const bombColor = new THREE.Color(0x808080);
+const bombActiveColor = new THREE.Color(0xff0000);
 const bombSize = 5;
 
 export type BombExplosionRange = { minX: number, maxX: number, minY: number, maxY: number };
@@ -62,7 +64,7 @@ export class Bomb {
 
     initScene(scene: THREE.Scene) {
         const bombGeometry = new THREE.SphereGeometry(0.5, 5, 5);
-        const bombMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+        const bombMaterial = new THREE.MeshStandardMaterial({ color: bombColor });
 
         this.mesh = new THREE.Mesh(bombGeometry, bombMaterial);
         this.mesh.position.copy(this.game.toScenePosition(this.x, this.y));
@@ -118,6 +120,10 @@ export class Bomb {
         if (!this.exploded) {
             const s = Math.sin(this.remainingTime / 200);
             this.mesh!.scale.set(1 + 0.1 * s, 1 + 0.1 * s, 1 + 0.1 * s);
+
+            if (this.remainingTime < 1000) {
+                (this.mesh!.material as THREE.MeshStandardMaterial)!.color = (Math.floor(this.remainingTime / 200) | 0) % 2 == 1 ? bombActiveColor : bombColor;
+            }
         }
         else {
             const s = 0.1 + 0.9 * Math.pow((1000 - this.remainingTime) / 1000, 0.3);

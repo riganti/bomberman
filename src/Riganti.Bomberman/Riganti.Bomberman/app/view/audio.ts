@@ -32,11 +32,13 @@ export class Audio {
 
     playPlaceBombSound() {
         const placeBombSound = this.getOrCreateSound(this.placeBombSoundBuffer!);
+        placeBombSound.setVolume(0.5);
         placeBombSound.play();
     }
 
     playExplosionSound() {
         const explosionSound = this.getOrCreateSound(this.explosionSoundBuffer!);
+        explosionSound.setVolume(0.5);
         explosionSound.play();
     }
 

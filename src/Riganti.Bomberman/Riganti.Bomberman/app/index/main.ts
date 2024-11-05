@@ -40,6 +40,9 @@ async function init() {
     let lastJoystickCommand: PlayerDirection | null = null;
 
     nameField.value = window.localStorage.getItem("name") || "";
+    if (nameField.value && nameField.value.length > 15) {
+        nameField.value = nameField.value.substring(0, 15);
+    }
     joinButton.addEventListener("click", async () => {
         const name = nameField.value || new Date().getTime().toString();
         window.localStorage.setItem("name", name);

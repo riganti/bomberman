@@ -202,7 +202,7 @@ export class Game {
     }
 
     onBombExploded(bomb: Bomb) {
-        this.shakeFactor += 0.8;
+        this.shakeFactor = 0.5;
 
         let points = 0;
         for (let player of this.players) {
